@@ -1,0 +1,51 @@
+:root{
+  --themeColor: #ffb400;
+  --darkColor: #111111;
+  --darkGrey: #2b2a2a; 
+  --lightGrey: #797979;
+}
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+:focus{
+  outline: none;
+}
+body{
+  background-color: var(--darkColor);
+  color: #fff;
+  font-size: 16px;
+}
+a{
+  text-decoration: none;
+  display: inline-block;
+}
+
+.button_wrap{
+  max-width: 300px;
+  width: 100%;
+  margin: 50px auto;
+  background-color: var(--darkGrey);
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.button_wrap button{
+  padding: 10px 25px;
+  flex: 1;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: transparent;
+  transition: 0.3s ease;
+  color: var(--lightGrey);
+  font-weight: 600;
+}
+.button_wrap button.active{
+  background-color: var(--themeColor);  
+  color: #fff;    
+}

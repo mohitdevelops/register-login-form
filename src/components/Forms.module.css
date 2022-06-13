@@ -1,0 +1,76 @@
+.form_wrapper{
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: var(--darkGrey);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 40px;
+}
+.form_wrapper h2{
+    font-weight: 600;
+    font-size: 18px;
+    text-align: center;
+    text-transform: uppercase;
+    margin: 0 0 15px;
+}
+.form_wrapper .form_group{
+    margin: 0 0 30px;
+    position: relative;
+}
+.form_wrapper .form_group .validIcon{
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    font-size: 15px;
+    color: rgb(66, 255, 66);
+}
+.form_wrapper .form_group:last-child{
+    margin: 0;
+}
+.form_wrapper .form_group .inputMsg{
+    font-size: 12px;
+    position: absolute;
+    top: 100%;
+    color: var(--themeColor);
+}
+
+.form_wrapper form input{
+    background-color: var(--darkColor);
+    width: 100%;
+    padding: 15px 15px;
+    border: none;
+    border-radius: 8px;
+    color: var(--lightGrey);
+    font-size: 15px;
+}
+
+.form_wrapper form input[type=submit]{   
+    cursor: pointer; 
+    background-color: var(--themeColor);
+    color: #fff;
+    font-weight: 600;
+    opacity: 1;
+}
+.form_wrapper form input[type=submit]:disabled{
+    background-color: #3e3e3e;
+    color: #676767cf;
+    cursor: none;
+}
+.form_wrapper .form_group.inValid input{
+    border: solid 1px rgb(255 67 67 / 58%);
+    background-color: rgb(136 0 0 / 22%);
+}
+.form_wrapper p.tag{
+    color: var(--lightGrey);
+    font-weight: 600;
+    font-size: 14px;
+    margin: 0;
+    cursor: pointer;
+    display: inline-block;
+    transition: 0.3s ease;
+}
+.form_wrapper p.tag:hover{
+    color: var(--themeColor);
+}
