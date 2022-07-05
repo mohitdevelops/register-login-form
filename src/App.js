@@ -2,9 +2,10 @@ import "./App.css";
 import LoginForm from "./components/login-form/LoginForm";
 import RegisterForm from "./components/register-form/RegisterForm";
 import { useState } from "react";
+document.title = "Register Login Form"
 
 function App() {
-	const [buttonStatus, setButtonStatus] = useState("register");
+	const [buttonStatus, setButtonStatus] = useState("login");
 	const switchToRegister = () => {
 		setButtonStatus("register")
 	}
@@ -17,8 +18,7 @@ function App() {
 			<div className="button_wrap">
 				<button
 					className={classString(buttonStatus === "login" && "active")}
-					onClick={() => setButtonStatus("login")}
-				>
+					onClick={() => setButtonStatus("login")}>
 					Login
 				</button>
 				<button

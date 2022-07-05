@@ -3,37 +3,115 @@ import module from "../Forms.module.css";
 import { FiCheck } from "react-icons/fi";
 
 export default function RegisterForm(props) {
-	const [userName, setUserName] = useState("");
-	const [isUserNameValid, setIsUserNameValid] = useState();
-	const [userEmail, setUserEmail] = useState("");
-	const [isUserEmailValid, setIsUserEmailValid] = useState();
-	const [userPassword, setUserPassword] = useState("");
-	const [isUserPasswordValid, setIsUserPasswordValid] = useState();
+	// const [userName, setUserName] = useState("");
+	// const [isUserNameValid, setIsUserNameValid] = useState();
+	// const [userEmail, setUserEmail] = useState("");
+	// const [isUserEmailValid, setIsUserEmailValid] = useState();
+	// const [userPassword, setUserPassword] = useState("");
+	// const [isUserPasswordValid, setIsUserPasswordValid] = useState();
 	const [repeatPassword, setRepeatPassword] = useState("");
 	const [isRepeatPassword, setIsRepeatPassword] = useState();
 
+	const [usernameState, dispatchUsernameFunc] = useReducer(
+		(prevState, action) => {
+			if (action.type === "username") {
+				return {
+					user: action.usernameValue,
+					isUserValid: action.usernameValue.includes(" "),
+				};
+			}
+			if (action.type === "usernameonblur") {
+				return {
+					user: prevState.user,
+					isUserValid: prevState.user.includes(" "),
+				};
+			}
+		},
+		{
+			user: "",
+			isUserValid: null,
+		}
+	);
+
+	const [emailState, dispatchEmailFunc] = useReducer(
+		(prevState, action) => {
+			if (action.type === "useremail") {
+				return {
+					email: action.emailValue,
+					isEmailValid: action.emailValue.includes("@"),
+				};
+			}
+			if (action.type === "useremailonblur") {
+				return {
+					email: prevState.email,
+					isEmailValid: prevState.email.includes("@"),
+				};
+			}
+		},
+		{
+			email: "",
+			isEmailValid: null,
+		}
+	);
+
+	const [passwordState, dispatchPasswordFunc] = useReducer(
+		(prevState, action) => {
+			if (action.type === "password") {
+				return {
+					password: action.passwordValue,
+					isPasswordValid: action.passwordValue.trim().length < 5,
+				};
+			}
+			if (action.type === "passwordonblur") {
+				return {
+					password: prevState.password,
+					isPasswordValid: prevState.password.trim().length < 5,
+				};
+			}
+		},
+		{
+			password: "",
+			isPasswordValid: null,
+		}
+	);
+
 	function userNameOnChangeHandler(event) {
-		setUserName(event.target.value);
+		dispatchUsernameFunc({
+			type: "username",
+			usernameValue: event.target.value,
+		});
 	}
 
 	function checkUserNameValid() {
-		setIsUserNameValid(userName.includes(" "));
+		dispatchUsernameFunc({
+			type: "usernameonblur",
+		});
 	}
 
 	function userEmailOnChangeHandler(event) {
-		setUserEmail(event.target.value);
+		dispatchEmailFunc({
+			type: "useremail",
+			emailValue: event.target.value,
+		});
 	}
 
 	function checkUserEmailValid() {
-		setIsUserEmailValid(userEmail.includes("@"));
+		dispatchEmailFunc({
+			type: "useremailonblur",
+		});
 	}
 
 	function userPasswordOnChangeHandler(event) {
-		setUserPassword(event.target.value);
+		dispatchPasswordFunc({
+			type: "password",
+			passwordValue: event.target.value,
+		});
 	}
 
 	function checkUserPasswordValid() {
-		setIsUserPasswordValid(userPassword.trim().length < 5);
+		dispatchPasswordFunc({
+			type: "passwordonblur",
+		});
 	}
 
 	function repeatPasswordHandler(event) {
@@ -41,21 +119,27 @@ export default function RegisterForm(props) {
 	}
 
 	function cheakRepeatPasswordValid() {
-		setIsRepeatPassword(userPassword === repeatPassword);
+		setIsRepeatPassword(passwordState.passwordValue === repeatPassword);
+	}
+
+	const formSubmit = event => {
+		event.preventDefault();
 	}
 
 	return (
 		<div className={module.form_wrapper}>
 			<h2>Register</h2>
-			<form>
+			<form onSubmit={formSubmit}>
 				<div
 					className={`${module.form_group} ${
-						isUserNameValid === false ? module.inValid : ""
+						usernameState.isUserValid === false ? module.inValid : ""
 					}`}
 				>
-					{isUserNameValid && <FiCheck className={module.validIcon} />}
+					{usernameState.isUserValid && (
+						<FiCheck className={module.validIcon} />
+					)}
 					<input
-						value={userName}
+						value={usernameState.value}
 						onChange={userNameOnChangeHandler}
 						onBlur={checkUserNameValid}
 						type="text"
@@ -63,17 +147,18 @@ export default function RegisterForm(props) {
 						placeholder="Set username *"
 					/>
 					<div className={module.inputMsg}>
-						{isUserNameValid === false && "Please enter your last name"}
+						{usernameState.isUserValid === false &&
+							"Please enter your last name"}
 					</div>
 				</div>
 				<div
 					className={`${module.form_group} ${
-						isUserEmailValid === false ? module.inValid : ""
+						emailState.isEmailValid === false ? module.inValid : ""
 					}`}
 				>
-					{isUserEmailValid && <FiCheck className={module.validIcon} />}
+					{emailState.isEmailValid && <FiCheck className={module.validIcon} />}
 					<input
-						value={userEmail}
+						value={emailState.emailValue}
 						onChange={userEmailOnChangeHandler}
 						onBlur={checkUserEmailValid}
 						type="text"
@@ -81,21 +166,21 @@ export default function RegisterForm(props) {
 						placeholder="Your email *"
 					/>
 					<div className={module.inputMsg}>
-						{isUserEmailValid === false && "Invalid Email (Missing @)"}
+						{emailState.isEmailValid === false && "Invalid Email (Missing @)"}
 					</div>
 				</div>
 				<div
 					className={`${module.form_group} ${
-						isUserPasswordValid === true ? module.inValid : ""
+						passwordState.isPasswordValid === true ? module.inValid : ""
 					}`}
 				>
-					{isUserPasswordValid === false ? (
+					{passwordState.isPasswordValid === false ? (
 						<FiCheck className={module.validIcon} />
 					) : (
 						""
 					)}
 					<input
-						value={userPassword}
+						value={passwordState.passwordValue}
 						onChange={userPasswordOnChangeHandler}
 						onBlur={checkUserPasswordValid}
 						type="text"
@@ -103,7 +188,7 @@ export default function RegisterForm(props) {
 						placeholder="Password *"
 					/>
 					<div className={module.inputMsg}>
-						{isUserPasswordValid && "Password must have 5 character"}
+						{passwordState.isPasswordValid && "Password must have 5 character"}
 					</div>
 				</div>
 				<div

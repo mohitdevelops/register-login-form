@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import module from "../Forms.module.css";
-import { FiCheck } from "react-icons/fi";
 
 export default function LoginForm(props) {
 	const [inputUserEmail, setInputUserEmail] = useState("");
@@ -27,7 +26,7 @@ export default function LoginForm(props) {
 	const loginFormOnSubmit = function (event) {
 		event.preventDefault();
 		setInputPassword("");
-		setInputUserEmail("");		
+		setInputUserEmail("");			
 	};
 
 	return (
@@ -39,7 +38,6 @@ export default function LoginForm(props) {
 						isEmailValid === false ? module.inValid : ""
 					}`}
 				>
-					{isEmailValid && <FiCheck className={module.validIcon} />}
 					<input
 						onChange={userEmailInput}
 						value={inputUserEmail}
@@ -56,8 +54,7 @@ export default function LoginForm(props) {
 					className={`${module.form_group} ${
 						isPasswordValid === false ? module.inValid : ""
 					}`}
-				>
-					{isPasswordValid && <FiCheck className={module.validIcon} />}
+				>					
 					<input
 						onChange={userPasswordInput}
 						value={inputPassword}
